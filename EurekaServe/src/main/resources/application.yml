@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    # 启用哪个配置文件
+    active: eureka2
+  # 多个实例用一个 application name.表示属于同一组
+  application:
+    name: EurekaServer
