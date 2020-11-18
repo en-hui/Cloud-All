@@ -1,4 +1,6 @@
-cloud-all.iml
-/EurekaServe/*.iml
+# Intellij
 .idea
+*.iml
+*/*.iml
+
 target

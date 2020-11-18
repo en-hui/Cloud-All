@@ -1,3 +1,4 @@
+# 高可用eureka服务端配置 节点2
 server:
   port: 7002
 eureka:
@@ -8,7 +9,7 @@ eureka:
     fetch-registry: true
     # 设置服务注册中心的URL
     service-url:
-      defaultZone: http://eureka2.com:7001/eureka/
+      defaultZone: http://eureka1.com:7001/eureka/
   # 主机名.host文件中配置 eureka1.com和eureka2.com 表示 127.0.0.1
   instance:
-    hostname: eureka1.com
+    hostname: eureka2.com

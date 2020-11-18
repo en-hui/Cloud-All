@@ -1,0 +1,21 @@
+# 单节点eureka服务端配置
+server:
+  port: 7001
+eureka:
+  client:
+    # 是否将自己注册到Eureka Server
+    register-with-eureka: false
+    # 是否从eureka server获取注册信息
+    fetch-registry: false
+    # 必须覆盖此配置，否则会默认向8761注册。上面两个false不能关闭自己的注册
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+  # 关闭自我保护机制
+  server:
+    enable-self-preservation: false
+#autuator开启全部节点信息
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,12 @@
+spring:
+  # 多个实例用一个 application name.表示属于同一组
+  application:
+    name: EurekaServer
+  profiles:
+    # 启用哪个配置文件
+    active: node1
+eureka:
+  client:
+    #向eureka上报真实的健康状态
+    healthcheck:
+      enabled: true

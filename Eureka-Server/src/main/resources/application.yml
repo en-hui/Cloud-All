@@ -4,4 +4,4 @@ spring:
     name: EurekaServer
   profiles:
     # 启用哪个配置文件
-    active: eureka2
+    active: single

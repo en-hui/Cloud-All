@@ -1,0 +1,22 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: Consumer
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+
+management:
+  #autuator开启全部节点信息
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  #开启后，可以远程关闭服务节点
+  endpoint:
+    shutdown:
+      enabled: true
