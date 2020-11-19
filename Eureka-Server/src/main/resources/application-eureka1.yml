@@ -9,10 +9,7 @@ eureka:
     fetch-registry: true
     # 设置服务注册中心的URL.
     service-url:
-      #无密码形式
-      #defaultZone: http://localhost:7001/eureka/
-      #安全验证，有密码模式
-      defaultZone: http://admin:admin@localhost:7001/eureka/
+      defaultZone: http://eureka2.com:7002/eureka/
   # 主机名.host文件中配置 eureka1.com和eureka2.com 表示 127.0.0.1
   instance:
     hostname: eureka1.com
