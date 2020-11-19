@@ -1,5 +1,18 @@
 # Eureka
+版本信息
+```
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.6.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+</parent>
 
+<properties>
+    <java.version>1.8</java.version>
+    <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+</properties>
+```
 ## Eureka 单节点搭建
 
 1.pom.xml中添加依赖   
@@ -156,3 +169,59 @@ eureka:
 </dependency>
 ```
 代码见 Eureka-Provider 模块下的 HealthStatusService
+
+## eureka 的安全配置
+1.Eureka 服务端配置pom
+```
+<!--安全配置-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+```
+2.Eureka 服务端添加配置
+```yaml
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+```
+3.Eureka 客户端连接配置位置添加账户密码
+```yaml
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #无密码形式
+      #defaultZone: http://localhost:7001/eureka/
+      #安全验证，有密码模式
+      defaultZone: http://admin:admin@localhost:7001/eureka/
+```
+
+Eureka 服务端添加配置类(关闭防跨域)
+```java
+package fun.enhui.eurekaserver;
+
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+/**
+ * 安全配置
+ *
+ * @author 胡恩会
+ * @date 2020/11/19 1:40
+ */
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // 关闭防跨域
+        http.csrf().disable();
+        super.configure(http);
+    }
+}
+
+```

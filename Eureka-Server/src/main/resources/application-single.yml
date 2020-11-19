@@ -9,7 +9,10 @@ eureka:
     fetch-registry: false
     # 必须覆盖此配置，否则会默认向8761注册。上面两个false不能关闭自己的注册
     service-url:
-      defaultZone: http://localhost:7001/eureka/
+      #无密码形式
+      #defaultZone: http://localhost:7001/eureka/
+      #安全验证，有密码模式
+      defaultZone: http://admin:admin@localhost:7001/eureka/
   # 关闭自我保护机制
   server:
     enable-self-preservation: false
@@ -19,3 +22,8 @@ management:
     web:
       exposure:
         include: "*"
+spring:
+  security:
+    user:
+      name: admin
+      password: admin

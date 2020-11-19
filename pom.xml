@@ -8,7 +8,6 @@
         <module>Eureka-Server</module>
         <module>Eureka-Provider</module>
         <module>Eureka-Consumer</module>
-
     </modules>
 
     <parent>

@@ -8,7 +8,10 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:7001/eureka/
+      #无密码形式
+      #defaultZone: http://localhost:7001/eureka/
+      #安全验证，有密码模式
+      defaultZone: http://admin:admin@localhost:7001/eureka/
 
 management:
   #autuator开启全部节点信息
