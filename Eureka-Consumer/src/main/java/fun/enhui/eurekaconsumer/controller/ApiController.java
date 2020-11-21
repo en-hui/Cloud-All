@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 消费者
@@ -34,6 +36,8 @@ public class ApiController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    AtomicInteger atomicInteger = new AtomicInteger();
 
     /**
      * 获取所有服务列表
@@ -82,7 +86,31 @@ public class ApiController {
         String url = "http://" + instance.getHost() + ":" + instance.getPort() + "/get/hi";
         String forEntity = restTemplate.getForObject(url, String.class);
         System.out.println(forEntity);
-        return instance.getHost() + instance.getPort() + forEntity;
+        return forEntity;
+    }
+
+    /**
+     * 远程调用
+     * 自定义负载均衡算法
+     **/
+    @GetMapping("/rpc/my/load/balance/get/hi")
+    public String rpcMyLoadBalanceGetHi() {
+        List<InstanceInfo> instanceInfos = eurekaClient.getInstancesByVipAddress("provider", false);
+
+        // 随机
+        int random = new Random().nextInt(instanceInfos.size());
+        InstanceInfo instance1 = instanceInfos.get(random);
+        String url1 = "http://" + instance1.getHostName() + ":" + instance1.getPort() + "/get/hi";
+
+        // 轮询
+        int increment = atomicInteger.getAndIncrement();
+        InstanceInfo instance2 = instanceInfos.get(increment % instanceInfos.size());
+        String url2 = "http://" + instance2.getHostName() + ":" + instance2.getPort() + "/get/hi";
+
+        String forEntity1 = restTemplate.getForObject(url1, String.class);
+        String forEntity2 = restTemplate.getForObject(url2, String.class);
+        System.out.println("随机算法:" + forEntity1 + ",轮询算法:" + forEntity2);
+        return "随机算法:" + forEntity1 + ",轮询算法:" + forEntity2;
     }
 
 }
