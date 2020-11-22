@@ -1,0 +1,15 @@
+server:
+  port: 8083
+spring:
+  # 多个实例用一个 application name.表示属于同一组
+  application:
+    name: UserProvider
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #无密码形式
+      #defaultZone: http://localhost:7001/eureka/
+      #安全验证，有密码模式
+      defaultZone: http://admin:admin@localhost:7001/eureka/

@@ -1,18 +1,5 @@
 # Eureka
-版本信息
-```
-<parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.2.6.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
-</parent>
 
-<properties>
-    <java.version>1.8</java.version>
-    <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
-</properties>
-```
 ## Eureka 单节点搭建
 
 1.pom.xml中添加依赖   

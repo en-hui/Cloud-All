@@ -113,4 +113,17 @@ public class ApiController {
         return "随机算法:" + forEntity1 + ",轮询算法:" + forEntity2;
     }
 
+    /**
+     * 自动拼url并负载访问
+     **/
+    @GetMapping("/auto/url/get/hi")
+    public String ribbonGetHi() {
+        // 自动处理url
+        String url = "http://provider/get/hi";
+        // 给 restTemplate 加注解 @LoadBalanced 实现负载均衡
+        String response = restTemplate.getForObject(url, String.class);
+        System.out.println(response);
+        return response;
+    }
+
 }

@@ -5,9 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
+        <!--消费者-->
         <module>Eureka-Consumer</module>
+        <!--生产者-->
         <module>Eureka-Provider</module>
+        <!--eureka 服务端-->
         <module>Eureka-Server</module>
+        <!--使用feign的案例 生产者-->
+        <module>User-Provider</module>
+        <!--使用feign的案例 消费者-->
+        <module>User-Consumer</module>
+        <!--feign接口规范-->
+        <module>User-Api</module>
     </modules>
 
     <parent>

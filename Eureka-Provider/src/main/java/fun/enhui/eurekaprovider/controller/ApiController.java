@@ -30,6 +30,7 @@ public class ApiController {
 
     /**
      * 健康检查
+     * 服务手动上下线
      **/
     @GetMapping("/health")
     public String health(@RequestParam("status") Boolean status) {

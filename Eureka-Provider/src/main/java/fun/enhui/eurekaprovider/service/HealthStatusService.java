@@ -24,8 +24,10 @@ public class HealthStatusService implements HealthIndicator {
     @Override
     public Health health() {
         if (status) {
+            // 服务上线，状态改为UP
             return new Health.Builder().up().build();
         }
+        // 服务下线，状态改为DOWN
         return new Health.Builder().down().build();
     }
 }
