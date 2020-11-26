@@ -33,6 +33,11 @@
             <artifactId>User-Api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!--Hystrix-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

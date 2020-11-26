@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author 胡恩会
  * @date 2020/11/23 0:14
  */
-@RequestMapping("user")
 public interface UserApi {
 
     /**

@@ -1,6 +1,8 @@
 package fun.enhui.userconsumer.api;
 
 import fun.enhui.userapi.controller.api.UserApi;
+import fun.enhui.userconsumer.fallback.UserProviderBack;
+import fun.enhui.userconsumer.fallback.UserProviderBackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,7 @@ import java.util.Map;
  * @author 胡恩会
  * @date 2020/11/23 0:16
  */
-@FeignClient(name = "UserProvider")
+@FeignClient(name = "UserProvider", fallbackFactory = UserProviderBackFactory.class)
 public interface ConsumerApi extends UserApi {
     /**
      * 带参数的

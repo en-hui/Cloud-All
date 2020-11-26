@@ -22,6 +22,7 @@ public class UserController implements UserApi {
         return "ok";
     }
 
+    @GetMapping("/getMap1")
     public Map<Integer, String> getMap(Integer id) {
         Map<Integer, String> map = new HashMap<>();
         map.put(1, "provider：key是1");

@@ -13,3 +13,6 @@ eureka:
       #defaultZone: http://localhost:7001/eureka/
       #安全验证，有密码模式
       defaultZone: http://admin:admin@localhost:7001/eureka/
+feign:
+  hystrix:
+    enabled: true

@@ -126,5 +126,35 @@ public interface ConsumerApi extends UserApi {
 }
 ```
 
-> 注意事项：
->
+> 注意事项：    
+> 1.在@FeignClient中，参数使用SpringMvc注解。例如@RequestParam("id")  @RequestBody   
+> 2.和Hystrix一起使用时，在@FeignClient的类上不要配@RequestMapping    
+> 3.Feign默认所有带参数的请求都是Post，想要使用指定的提交方式需引入依赖   
+```
+<dependency>
+    <groupId>io.github.openfeign</groupId>
+    <artifactId>feign-httpclient</artifactId>
+</dependency>
+```
+
+## 超时和重试配置
+超时   
+>Feign默认支持Ribbon；
+>Ribbon的重试机制和Feign的重试机制有冲突，
+>所以源码中默认关闭Feign的重试机制,使用Ribbon的重试机制
+```
+#连接超时时间(ms)
+ribbon.ConnectTimeout=1000
+#业务逻辑超时时间(ms)
+ribbon.ReadTimeout=6000
+```
+重试   
+
+```
+#同一台实例最大重试次数,不包括首次调用
+ribbon.MaxAutoRetries=1
+#重试负载均衡其他的实例最大重试次数,不包括首次调用
+ribbon.MaxAutoRetriesNextServer=1
+#是否所有操作都重试
+ribbon.OkToRetryOnAllOperations=false
+```
