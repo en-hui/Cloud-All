@@ -12,3 +12,12 @@ SpringCloud:Hoxton.SR3
 ## 远程服务调用
 - RestTemplate: [阅读](RestTemplate/)
 - Feign: [阅读](Feign/)
+
+## 降级、限流、熔断
+- Hystrix: [阅读](Hystrix/)
+
+## 链路追踪
+- Sleuth和zipkin: [阅读](Sleuth&zipkin/)
+
+## 配置中心
+- Spring Cloud Admin: [阅读](Spring Cloud Admin/)

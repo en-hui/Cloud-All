@@ -21,9 +21,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
 spring:
   security:
     user:
       name: admin
       password: admin
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888

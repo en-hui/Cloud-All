@@ -15,7 +15,6 @@ import java.util.Map;
  * @date 2020/11/22 23:29
  */
 @RestController
-@RequestMapping("/userconsumer")
 public class UserController {
 
     @Autowired

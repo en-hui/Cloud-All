@@ -19,7 +19,7 @@ public class UserController implements UserApi {
      **/
     @Override
     public String alive() {
-        return "ok";
+        return "User-Provider:ok";
     }
 
     @GetMapping("/getMap1")

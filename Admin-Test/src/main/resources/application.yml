@@ -1,0 +1,6 @@
+server:
+  port: 8888
+spring:
+  # 多个实例用一个 application name.表示属于同一组
+  application:
+    name: Admin-Test

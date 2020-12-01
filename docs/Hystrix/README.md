@@ -101,3 +101,77 @@ public class UserProviderBackFactory implements FallbackFactory<ConsumerApi> {
     }
 }
 ```
+
+## 整合RestTemplate和hystrix
+service
+```
+	@HystrixCommand(fallbackMethod = "back")
+	public String alive() {
+		// 自动处理URL
+		
+		RestTemplate restTemplate = new RestTemplate();
+		
+		String url ="http://user-provider/User/alive";
+		String object = restTemplate.getForObject(url, String.class);
+		
+		return object;
+		
+	}
+	
+	
+	public String back() {
+		
+		return "请求失败~bbb...";
+	}
+```
+启动类
+```
+@EnableCircuitBreaker
+```
+## 线程隔离和信号量隔离（重点）
+hystrix默认使用线程池控制请求隔离   
+1.线程池隔离：即hystrix维护一个线程池去执行调用    
+2.信号量隔离：即使用tomcat的Worker线程池去执行调用。信号量隔离就是一道关卡，设置多少信号量，就允许多少线程通过它来调用外部服务
+
+信号量隔离主要维护的是Tomcat的线程，不需要内部线程池，更加轻量级。
+
+配置
+```
+hystrix.command.default.execution.isolation.strategy 隔离策略，默认是Thread, 可选Thread｜Semaphore
+thread 通过线程数量来限制并发请求数，可以提供额外的保护，但有一定的延迟。一般用于网络调用
+semaphore 通过semaphore count来限制并发请求数，适用于无网络的高并发请求
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds 命令执行超时时间，默认1000ms
+hystrix.command.default.execution.timeout.enabled 执行是否启用超时，默认启用true
+hystrix.command.default.execution.isolation.thread.interruptOnTimeout 发生超时是是否中断，默认true
+hystrix.command.default.execution.isolation.semaphore.maxConcurrentRequests 最大并发请求数，默认10，该参数当使用ExecutionIsolationStrategy.SEMAPHORE策略时才有效。如果达到最大并发请求数，请求会被拒绝。理论上选择semaphore size的原则和选择thread size一致，但选用semaphore时每次执行的单元要比较小且执行速度快（ms级别），否则的话应该用thread。
+semaphore应该占整个容器（tomcat）的线程池的一小部分。
+```
+
+## 开启dashboard
+启动类添加
+```
+@EnableHystrixDashboard
+```
+添加依赖
+```
+<!-- hystrix dashboard-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>
+        spring-cloud-starter-netflix-hystrix-dashboard
+    </artifactId>
+</dependency>
+<!-- actuator -->		
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+健康上报   
+http://localhost:90/actuator/hystrix.stream
+
+图形化   
+http://localhost:90/hystrix
+
+如果没有，autuator开启全部节点信息

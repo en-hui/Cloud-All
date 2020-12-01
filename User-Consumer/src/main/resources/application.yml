@@ -4,6 +4,18 @@ spring:
   # 多个实例用一个 application name.表示属于同一组
   application:
     name: UserConsumer
+  #zipkin
+  zipkin:
+    base-url: http://localhost:9411/
+    #采样比例1
+  sleuth:
+    sampler:
+      rate: 1
+
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888
 eureka:
   client:
     register-with-eureka: true
@@ -16,3 +28,12 @@ eureka:
 feign:
   hystrix:
     enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

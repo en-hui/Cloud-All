@@ -17,6 +17,10 @@
         <module>User-Consumer</module>
         <!--feign接口规范-->
         <module>User-Api</module>
+        <!--zuul 网关-->
+        <module>Zuul-Test</module>
+        <!--spring cloud admin-->
+        <module>Admin-Test</module>
     </modules>
 
     <parent>

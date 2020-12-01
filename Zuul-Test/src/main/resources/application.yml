@@ -1,0 +1,26 @@
+server:
+  port: 80
+spring:
+  application:
+    name: ZuulTest
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      #无密码形式
+      #defaultZone: http://localhost:7001/eureka/
+      #安全验证，有密码模式
+      defaultZone: http://admin:admin@localhost:7001/eureka/
+# 路由端点，通过此配置。调试、排查错误
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+    routes:
+      enabled: true
