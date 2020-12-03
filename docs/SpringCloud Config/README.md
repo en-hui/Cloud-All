@@ -150,3 +150,54 @@ public class ConfigController {
 
 ```
 
+## 刷新配置
+上面那种只能满足重启加载远程配置。
+### 第一种，单节点刷新配置
+>1.开启actuator中的refresh端点
+2.Controller中添加 @RefreshScope 注解(所有用到远程配置变量的类都加此注解)
+3.向 http://localhost:9998/actuator/refresh 发送Post请求,就可以刷新这台服务的配置了。如果集群需要一个一个访问
+
+添加依赖
+```
+<!-- actuator 监控 -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+开启端点
+```
+management:
+  #autuator开启全部节点信息
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+```
+
+### 第二种，多节点刷新配置
+安装 RabbitMQ
+```
+# 开启RabbitMQ节点
+rabbitmqctl start_app
+# 开启RabbitMQ管理模块的插件，并配置到RabbitMQ节点上
+rabbitmq-plugins enable rabbitmq_management
+```
+
+服务配置：
+```
+# RabbitMQ 连接信息
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+```
+添加依赖
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+</dependency>
+```
+启动两个服务（9998、9997），此时向一个服务发送刷新，两个都刷新了    
+post请求：http://localhost:9998/actuator/bus-refresh
