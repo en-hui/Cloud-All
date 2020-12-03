@@ -19,5 +19,8 @@ SpringCloud:Hoxton.SR3
 ## 链路追踪
 - Sleuth和zipkin: [阅读](Sleuth&zipkin/)
 
+## 监控中心
+- SpringCloud Admin: [阅读](SpringCloud Admin/)
+
 ## 配置中心
-- Spring Cloud Admin: [阅读](Spring Cloud Admin/)
+- SpringCloud Config: [阅读](SpringCloud Config/)

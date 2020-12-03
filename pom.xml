@@ -21,6 +21,8 @@
         <module>Zuul-Test</module>
         <!--spring cloud admin-->
         <module>Admin-Test</module>
+        <module>Config-Center</module>
+        <module>Config-Client</module>
     </modules>
 
     <parent>
