@@ -5,6 +5,7 @@ SpringCloud:Hoxton.SR3
 
 ## 服务注册中心
 - Eureka: [阅读](Eureka/)
+- Eureka优化: [阅读](Eureka/Eureka优化.md)
 
 ## 负载均衡
 - Ribbon: [阅读](Ribbon/)
