@@ -8,7 +8,7 @@
 > 当存在Mark类对象时，eureka包的启动类EurekaServerAutoConfiguration就会启动  
 > 启动类又引入了EurekaServerInitializerConfiguration类，引入这个类就会运行这个类中的start方法。  
 > 因为start是重写了org.springframework.context包的start方法。所以只要引入就会调用（生命周期函数）  
-> start方法：启动了一个线程，
+> start方法：启动了一个线程，1.从peer拉取注册表2.启动定时剔除任务（自我保护）
 
 
 ## 优化点
@@ -61,10 +61,33 @@ ConcurrentMap<Key, ResponseCacheImpl.Value> readOnlyCacheMap
     （如果useReadOnlyCache是false）直接从二级缓存取
 默认情况下定时任务每30s将readWriteCacheMap同步至readOnlyCacheMap
 ```
-为什么说eureka实现了CAP种的AP，没有实现C  
+为什么说eureka实现了CAP中的AP，没有实现C  
 首先CAP表示一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）  
-由于三级缓存中，readWriteCacheMap和readOnlyCacheMap每30秒做一次同步，所以不是强一致性
+一致性（C）：在分布式系统中的所有数据备份，在同一时刻是否同样的值。（等同于所有节点访问同一份最新的数据副本）  
+可用性（A）：在集群中一部分节点故障后，集群整体是否还能响应客户端的读写请求。（对数据更新具备高可用性）  
+分区容忍性（P）：以实际效果而言，分区相当于对通信的时限要求。系统如果不能在时限内达成数据一致性，就意味着发生了分区的情况，必须就当前操作在C和A之间做出选择。  
+1.由于三级缓存中，readWriteCacheMap和readOnlyCacheMap每30秒做一次同步，所以不是强一致性  
+2.从其他peer拉取注册表。```int registryCount = this.registry.syncUp();```因为启动eureka server的时候才去拉取，所以不是强一致性的  
+3.网络不好的情况，定时剔除（非即时）保证了P  
+4.多个eureka server保证A
+
+生产环境问题：服务重启时，先停服，在手动下线（否则可能下线后停服前又续约了，导致白下线了）
 
 
+eureka server源码主要关注功能：
+剔除（本质也是下面的下线）。长时间没有心跳的服务，eureka server将它从注册表剔除  
+注册  
+续约  
+下线  
+集群间同步  
+拉取注册表
+## 服务测算
+
+20个服务，每个服务部署5个实例   eureka client：100个
+不调优的情况下。
+每分钟心跳：100*2 = 200 次
+每分钟拉取：100*2 = 200 次
+
+则每天访问量：400*60*24 = 57.6W
 
 
