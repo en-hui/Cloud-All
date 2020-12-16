@@ -17,6 +17,9 @@ SpringCloud:Hoxton.SR3
 ## 降级、限流、熔断
 - Hystrix: [阅读](Hystrix/)
 
+## 网关
+- Zuul: [阅读](Zuul/)
+
 ## 链路追踪
 - Sleuth和zipkin: [阅读](Sleuth&zipkin/)
 

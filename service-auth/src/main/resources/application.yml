@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: service-auth
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql:///cloud_all?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+server:
+  port: 80
+
+

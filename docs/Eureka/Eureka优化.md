@@ -11,7 +11,13 @@
 > start方法：启动了一个线程，1.从peer拉取注册表2.启动定时剔除任务（自我保护）
 
 
-## 优化点
+## eureka server 优化点
+优化目的：减少服务上下线的延时
+
+- 加快服务发现速度
+- 加快服务过期剔除的速度
+- 自我保护
+
 1.不同数量服务的自我保护配置：微服务较多时开启**自我保护**，微服务较少时不开启**自我保护**
 > 第一种情况：假如一共有5个微服务，1个真实不可用，注册成功率80%，触发自我保护，不剔除服务，则会频繁访问不可用服务  
 > 第二种情况：假如一共有100个微服务，其中15个由于网络原因不能成功注册，5个真实不可用，注册成功率80%，触发自我保护，保护了15个有效服务
@@ -71,11 +77,12 @@ ConcurrentMap<Key, ResponseCacheImpl.Value> readOnlyCacheMap
 3.网络不好的情况，定时剔除（非即时）保证了P  
 4.多个eureka server保证A
 
-生产环境问题：服务重启时，先停服，在手动下线（否则可能下线后停服前又续约了，导致白下线了）
-
+生产环境问题：服务重启时，先停服，在手动下线（否则可能下线后停服前又续约了，导致白下线了）     
+避免无效的集群，eureka集群最多三个节点     
+server之间分担压力，乱序配置eureka地址    
 
 eureka server源码主要关注功能：
-剔除（本质也是下面的下线）。长时间没有心跳的服务，eureka server将它从注册表剔除  
+剔除（本质也是下面的下线）。长时间没有心跳的服务，eureka server将它从注册表剔除   
 注册  
 续约  
 下线  
@@ -90,4 +97,20 @@ eureka server源码主要关注功能：
 
 则每天访问量：400 * 60 * 24 = 57.6W   
 
-
+## eureka client优化点
+```
+eureka:
+  client:
+    # 刷新注册表（拉取注册表）间隔配置  
+    registry-fetch-interval-seconds: 30
+    #配置 server url 要打乱顺序（不要所有client都写一样的顺序） 
+    service-url:
+      defaultZone: http://eureka1:7001/eureka/,http://eureka2:7002/eureka/,http://eureka3:7003/eureka/
+eureka: 
+  instance:
+    #心跳间隔，默认30秒
+    lease-renewal-interval-in-seconds: 5
+```
+ 
+ 
+  

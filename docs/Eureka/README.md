@@ -212,3 +212,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 
 ```
+
+地区、多区域配置
